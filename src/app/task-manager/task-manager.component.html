@@ -1,0 +1,22 @@
+<div style="max-width: 600px; margin: auto;">
+  <h2>🗂️ Task Manager</h2>
+
+  <input
+    #nameInput
+    type="text"
+    placeholder="Task Name"
+    [(ngModel)]="taskName"
+  />
+  <select #priorityInput [(ngModel)]="taskPriority">
+    <option>High</option>
+    <option>Medium</option>
+    <option>Low</option>
+  </select>
+  <button (click)="addTask(nameInput, priorityInput)">Add Task</button>
+
+  <app-task-list
+    [taskList]="tasks"
+    (completeTask)="markTaskAsCompleted($event)"
+  ></app-task-list>
+</div>
+

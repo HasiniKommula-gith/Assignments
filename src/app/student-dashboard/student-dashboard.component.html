@@ -1,0 +1,45 @@
+
+<div style="padding: 20px; max-width: 500px; margin: auto;">
+  <h2>🎓 Student Dashboard</h2>
+
+ 
+  <input
+    #nameInput
+    type="text"
+    placeholder="Enter student name"
+    [(ngModel)]="studentName"
+  />
+  <input
+    #gradeInput
+    type="text"
+    placeholder="Enter grade (A, B, C)"
+    [(ngModel)]="studentGrade"
+  />
+  <button (click)="addStudent(nameInput, gradeInput)">Add Student</button>
+
+  <hr />
+
+ 
+  <p *ngIf="students.length === 0">No students were found.</p>
+
+
+  <ul>
+    <li *ngFor="let student of students">
+      👨‍🎓 {{ student.name }} - Grade: {{ student.grade }}
+      <span
+        [ngSwitch]="student.grade"
+        [ngClass]="{
+          'green-text': student.grade === 'A',
+          'orange-text': student.grade === 'B',
+          'red-text': student.grade === 'C'
+        }"
+      >
+        <span *ngSwitchCase="'A'">🟢 Excellent</span>
+        <span *ngSwitchCase="'B'">🟡 Good</span>
+        <span *ngSwitchCase="'C'">🔴 Needs Improvement</span>
+        <span *ngSwitchDefault> - Grade Not Rated</span>
+      </span>
+    </li>
+  </ul>
+</div>
+

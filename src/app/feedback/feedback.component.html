@@ -1,0 +1,34 @@
+<div style="max-width: 600px; margin: auto;">
+  <h2>🎓 Student Feedback Portal</h2>
+
+
+  <input
+    type="text"
+    placeholder="Name"
+    [(ngModel)]="feedback.name"
+  />
+  <input
+    type="text"
+    placeholder="Course"
+    [(ngModel)]="feedback.course"
+  />
+  <textarea
+    placeholder="Comment"
+    [(ngModel)]="feedback.comment"
+  ></textarea>
+
+  <button (click)="submitFeedback()">
+    {{ isEditMode ? 'Update' : 'Submit' }}
+  </button>
+
+  <hr />
+
+  <div *ngFor="let fb of feedbackList">
+    <p>
+      <strong>{{ fb.name }}</strong> ({{ fb.course }}): {{ fb.comment }}
+      <button (click)="editFeedback(fb)">Edit</button>
+      <button (click)="deleteFeedback(fb.id!)">Delete</button>
+    </p>
+  </div>
+</div>
+
