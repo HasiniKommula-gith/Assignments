@@ -8,5 +8,6 @@ export const routes: Routes = [
      { path: '', redirectTo: 'task-manager', pathMatch: 'full' },
   { path: 'task-manager', component: TaskManagerComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
-   { path: 'feedback-portal', component: FeedbackComponent }
+   { path: 'feedback-portal', component: FeedbackComponent },
+  {path: 'smart-tracker' , component:SmartTrackerComponent}
 ];
