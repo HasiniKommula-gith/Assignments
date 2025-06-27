@@ -10,61 +10,42 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./feedback.component.css']
 })
 export class FeedbackComponent {
-  feedbackList: Feedback[] = [];
-
-  feedback: Feedback = {
+  feedback = {
     name: '',
     course: '',
-    comment: '',
+    comment: ''
   };
 
-  isEditMode = false;
-  currentEditId: number | null = null;
+  feedbackList: any[] = [];
 
-  constructor(private feedbackService: FeedbackService) {}
-
-  ngOnInit() {
-    this.loadFeedback();
-  }
-
-  loadFeedback() {
-    this.feedbackService.getFeedback().subscribe((data) => {
-      this.feedbackList = data;
-    });
-  }
+  isEditMode: boolean = false;
+  editingId: number | null = null;
 
   submitFeedback() {
-    if (this.isEditMode && this.currentEditId !== null) {
-      this.feedbackService
-        .updateFeedback(this.currentEditId, this.feedback)
-        .subscribe(() => {
-          this.loadFeedback();
-          this.resetForm();
-        });
+    if (this.isEditMode) {
+      this.feedbackList = this.feedbackList.map((fb) =>
+        fb.id === this.editingId ? { ...this.feedback, id: this.editingId } : fb
+      );
+      this.isEditMode = false;
+      this.editingId = null;
     } else {
-      this.feedbackService.addFeedback(this.feedback).subscribe(() => {
-        this.loadFeedback();
-        this.resetForm();
-      });
+      const newFeedback = { ...this.feedback, id: Date.now() };
+      this.feedbackList.push(newFeedback);
     }
+
+    
+    this.feedback = { name: '', course: '', comment: '' };
   }
 
-  editFeedback(item: Feedback) {
-    this.feedback = { ...item };
-    this.currentEditId = item.id!;
+  editFeedback(fb: any) {
+    this.feedback = { name: fb.name, course: fb.course, comment: fb.comment };
     this.isEditMode = true;
+    this.editingId = fb.id;
   }
 
   deleteFeedback(id: number) {
-    this.feedbackService.deleteFeedback(id).subscribe(() => {
-      this.loadFeedback();
-    });
+    this.feedbackList = this.feedbackList.filter(fb => fb.id !== id);
   }
 
-  resetForm() {
-    this.feedback = { name: '', course: '', comment: '' };
-    this.isEditMode = false;
-    this.currentEditId = null;
-  }
 
 }
